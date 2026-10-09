@@ -12,6 +12,7 @@ h1{font:800 clamp(38px,10vw,54px)/1 var(--disp);text-transform:uppercase;letter-
 .cap{text-align:center;color:#aab7cc;font-size:13px;margin:6px 0 14px}
 .sb{display:grid;grid-template-columns:1fr 1fr}
 .tm{padding:12px 14px}
+.wp{margin-top:14px}.wpt{text-align:center;color:#aab7cc;font:600 12px var(--body);letter-spacing:.08em;text-transform:uppercase}.wpl{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px;font:700 22px/1 var(--disp);letter-spacing:.03em;color:#fff;font-variant-numeric:tabular-nums}.wpl span:last-child{text-align:right}.wpl small{font:600 12px var(--body);color:#aab7cc;letter-spacing:0}.wpb{display:flex;height:12px;margin:8px 0 0;background:rgba(255,255,255,.12)}.wpb i{display:block;height:100%;transition:width .4s}.wpb .a{background:var(--red)}.wpb .t{background:#8a96aa}.wpb .b{background:#fff}.wpn{text-align:center;color:#8f9db5;font-size:11px;margin-top:6px}
 .tm.A{background:var(--red);color:#fff}.tm.B{background:#fff;color:#0a1a33;text-align:right}
 .num{font:800 clamp(60px,18vw,88px)/.9 var(--disp);font-variant-numeric:tabular-nums}
 .nm{font:700 17px/1.1 var(--disp);letter-spacing:.04em;text-transform:uppercase;margin-top:6px}
@@ -56,7 +57,7 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 .empty small{display:block;font:400 15px var(--body);color:var(--mu);text-transform:none;margin-top:6px}
 </style></head><body>
 <header class="hero"><div class="wrap"><h1 id="ttl"></h1><div class="cap">First to 20.5 points wins</div>
-<div class="sb"><div class="tm A"><div class="num" id="sa">0</div><div class="nm" id="na"></div></div><div class="tm B"><div class="num" id="sb">0</div><div class="nm" id="nb"></div></div></div></div></header>
+<div class="sb"><div class="tm A"><div class="num" id="sa">0</div><div class="nm" id="na"></div></div><div class="tm B"><div class="num" id="sb">0</div><div class="nm" id="nb"></div></div></div><div class="wp" id="wp"></div></div></header>
 <nav><div class="wrap tabs"><button data-t="sat">Saturday</button><button data-t="sun">Sunday</button><button data-t="roster">Players</button></div></nav>
 <main><div id="app"></div><div class="hint" id="hint"></div><div class="hint" id="views" style="margin-top:4px"></div></main>
 <div id="bar" hidden style="position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;align-items:center;z-index:9"><span id="msg" style="flex:1;font-size:13px"></span></div>
@@ -67,6 +68,19 @@ const F=["Best Ball","Scramble","Alt Shot"];
 let tab="sat",admin=false;
 const $=id=>document.getElementById(id);
 const pts=r=>!r?[0,0]:r.w==="A"?[1,0]:r.w==="B"?[0,1]:r.w==="H"?[.5,.5]:[0,0];
+function winProb(t){const need=41,done=t.n,rem=40-done;
+ if(t.a>=20.5)return{a:1,t:0,b:0,s:"clinched"};
+ if(t.b>=20.5||t.a+rem<20)return{a:0,t:0,b:1,s:"clinched"};
+ if(rem===0)return t.a===20?{a:0,t:1,b:0,s:"tie"}:{a:0,t:0,b:1,s:"done"};
+ const d=0.12,w=(1-d)/2;let dist=[1];
+ for(let i=0;i<rem;i++){const nx=new Array(dist.length+2).fill(0);dist.forEach((p,k)=>{if(!p)return;nx[k]+=p*w;nx[k+1]+=p*d;nx[k+2]+=p*w});dist=nx}
+ let a=0,tie=0,b=0;dist.forEach((p,k)=>{const tot=t.a*2+k;if(tot>=need)a+=p;else if(tot===40)tie+=p;else b+=p});
+ return{a,t:tie,b,s:""}}
+function drawProb(t){
+ const p=winProb(t),pc=x=>{const v=Math.round(x*100);return x>0&&v<1?"<1":x<1&&v>99?">99":String(v)};
+ const A=S.teams.A.name.replace(/^Team /,""),B=S.teams.B.name.replace(/^Team /,"");
+ const lab=(x,won)=>won?"Won":pc(x)+"%";
+ $('wp').innerHTML=`<div class="wpt">Chance to win</div><div class="wpl"><span>${A} ${p.s?(p.a===1?"Won":"") :pc(p.a)+"%"}</span>${p.t>=0.01&&!p.s?`<small>Tie ${pc(p.t)}%</small>`:""}<span>${p.s?(p.b===1?"Won":""):pc(p.b)+"%"} ${B}</span></div><div class="wpb"><i class="a" style="width:${p.a*100}%"></i><i class="t" style="width:${p.t*100}%"></i><i class="b" style="width:${p.b*100}%"></i></div><div class="wpn">${p.s?"Final result":"Based on the current score. Unplayed points are treated as even."}</div>`}
 function tot(){let a=0,b=0,n=0,sat=[0,0],sun=[0,0];
  const add=(r,t)=>{const p=pts(r);t[0]+=p[0];t[1]+=p[1];if(r&&r.w)n++};
  S.sat.forEach(m=>m.r.forEach(r=>add(r,sat)));S.sun.forEach(m=>add(m.r,sun));
@@ -76,7 +90,7 @@ const rec=(side,n)=>{let w=0,l=0,d=0;const add=r=>{if(!r||!r.w)return;if(r.w==="
  S.sat.forEach(m=>{if(m[side.toLowerCase()].includes(n))m.r.forEach(add)});
  S.sun.forEach(m=>{if(m[side.toLowerCase()]===n)add(m.r)});return[w,l,d,w+d/2]};
 function render(){
- const t=tot();
+ const t=tot();drawProb(t);
  $('ttl').textContent=S.title||"Cup";
  $('sa').textContent=t.a;$('sb').textContent=t.b;$('na').textContent=S.teams.A.name;$('nb').textContent=S.teams.B.name;
  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
@@ -103,7 +117,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v7";
+ $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v8";
 }
 function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
  let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
