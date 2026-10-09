@@ -1,0 +1,140 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>The Woody</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#eef1f5;--card:#fff;--tx:#0d1b33;--mu:#5d6b82;--ln:#dde3ec;--navy:#0a1a33;--red:#c8102e;--disp:"Barlow Condensed","Arial Narrow",Arial,sans-serif;--body:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#131c2e;--tx:#eef2f8;--mu:#93a0b5;--ln:#233049;--navy:#060d1b;--red:#e0233f}}
+:root[data-theme="dark"]{--bg:#0b1220;--card:#131c2e;--tx:#eef2f8;--mu:#93a0b5;--ln:#233049;--navy:#060d1b;--red:#e0233f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 var(--body)}
+.wrap{max-width:720px;margin:0 auto}
+.hero{background:var(--navy);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 20px) 12px 16px}
+h1{font:800 clamp(38px,10vw,54px)/1 var(--disp);text-transform:uppercase;letter-spacing:.01em;margin:0;text-align:center}
+.cap{text-align:center;color:#aab7cc;font-size:13px;margin:6px 0 14px}
+.sb{display:grid;grid-template-columns:1fr 1fr}
+.tm{padding:12px 14px}
+.tm.A{background:var(--red);color:#fff}.tm.B{background:#fff;color:#0a1a33;text-align:right}
+.num{font:800 clamp(60px,18vw,88px)/.9 var(--disp);font-variant-numeric:tabular-nums}
+.nm{font:700 17px/1.1 var(--disp);letter-spacing:.04em;text-transform:uppercase;margin-top:6px}
+nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--ln);padding-top:env(safe-area-inset-top,0px)}
+nav .wrap{display:flex}
+nav button{flex:1;background:none;border:0;border-bottom:4px solid transparent;color:var(--mu);font:700 19px/1 var(--disp);letter-spacing:.06em;text-transform:uppercase;padding:16px 4px 12px;cursor:pointer}
+nav button.on{color:var(--tx);border-bottom-color:var(--red)}
+nav button:focus-visible{outline:3px solid var(--red);outline-offset:-3px}
+main{max-width:720px;margin:0 auto;padding:12px 12px 28px}
+.day{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:4px 2px 10px}
+.day b{font:800 26px/1 var(--disp);text-transform:uppercase;letter-spacing:.02em}
+.day .sub{display:block;color:var(--mu);font-size:13px;margin-top:3px}
+.ds{display:flex;gap:16px;align-items:center;font:800 28px/1 var(--disp);font-variant-numeric:tabular-nums}.ds .sq{width:12px;height:12px;margin-right:7px}
+.sq{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:0}
+.sq.A{background:var(--red)}.sq.B{background:#fff;box-shadow:inset 0 0 0 1.5px var(--tx)}
+.card{background:var(--card);border:1px solid var(--ln);margin-bottom:12px}
+.g{display:grid;grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr);align-items:center;column-gap:8px;padding:0 12px}
+.g>:first-child{text-align:left}.g>:last-child{text-align:right}.g>.c{text-align:center}
+.hd{min-height:56px;padding-top:10px;padding-bottom:10px;font:700 20px/1.2 var(--disp);letter-spacing:.01em;border-bottom:1px solid var(--ln)}
+.hd .sq{margin:0 6px 0 0}.hd>:last-child .sq{margin:0 0 0 6px}
+.hd .c{color:var(--mu);font:600 13px var(--body);text-transform:none;letter-spacing:0}
+.pn{white-space:nowrap;font-size:clamp(16px,4.6vw,21px)}.rw{min-height:62px;border-top:1px solid var(--ln)}.hd+.rw{border-top:0}
+.fm{font:600 13px var(--body);color:var(--mu)}
+.ch{display:inline-block;min-width:54px;text-align:center;font:700 19px/1 var(--disp);letter-spacing:.03em;padding:6px 10px;text-transform:uppercase}
+.ch.A{background:var(--red);color:#fff}.ch.B{background:#fff;color:#0a1a33;box-shadow:inset 0 0 0 1.5px #0a1a33}.ch.H{background:var(--ln);color:var(--tx)}
+.ch input{width:56px;background:transparent;border:0;color:inherit;font:inherit;text-align:center;text-transform:uppercase;padding:0;letter-spacing:inherit}
+.ch input::placeholder{color:inherit;opacity:.55}.ch input:focus{outline:none;box-shadow:0 2px 0 currentColor}
+.ch:has(input){padding:6px 4px}
+button.pk{background:none;border:1.5px dashed var(--mu);color:var(--mu);font:700 17px/1 var(--disp);letter-spacing:.03em;text-transform:uppercase;min-width:60px;padding:8px 8px;cursor:pointer}
+button.pk.A{border-color:var(--red);color:var(--red)}button.pk:focus-visible,button.ch:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+button.ch{border:0;cursor:pointer;white-space:nowrap}
+select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1px solid var(--ln);background:var(--card);color:var(--tx);width:100%}
+.th{padding:12px;font:800 24px/1 var(--disp);text-transform:uppercase;letter-spacing:.03em}
+.th.A{background:var(--red);color:#fff}.th.B{background:#fff;color:#0a1a33;border-bottom:1px solid var(--ln)}
+.pr{display:grid;grid-template-columns:1fr 72px 44px;align-items:center;column-gap:8px;padding:0 12px;min-height:46px;border-top:1px solid var(--ln);font:600 20px/1.1 var(--disp)}
+.pr.h{min-height:34px;font:600 12px var(--body);color:var(--mu);border-top:0}
+.pr span:nth-child(n+2){text-align:center;font-variant-numeric:tabular-nums}.pr b{font-weight:800}
+.lk{background:none;border:0;color:var(--mu);font:500 12px var(--body);text-decoration:underline;cursor:pointer;padding:2px}
+.note{color:var(--mu);font-size:13px;margin:4px 2px 0}
+.hint{text-align:center;color:var(--mu);font-size:12px;margin-top:14px}
+.empty{background:var(--card);border:1px solid var(--ln);text-align:center;padding:36px 14px;font:700 24px/1.15 var(--disp);text-transform:uppercase}
+.empty small{display:block;font:400 15px var(--body);color:var(--mu);text-transform:none;margin-top:6px}
+</style></head><body>
+<header class="hero"><div class="wrap"><h1 id="ttl"></h1><div class="cap">First to 20.5 points wins</div>
+<div class="sb"><div class="tm A"><div class="num" id="sa">0</div><div class="nm" id="na"></div></div><div class="tm B"><div class="num" id="sb">0</div><div class="nm" id="nb"></div></div></div></div></header>
+<nav><div class="wrap tabs"><button data-t="sat">Saturday</button><button data-t="sun">Sunday</button><button data-t="roster">Players</button></div></nav>
+<main><div id="app"></div><div class="hint" id="hint"></div></main>
+<div id="bar" hidden style="position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;align-items:center;z-index:9"><span id="msg" style="flex:1;font-size:13px"></span></div>
+<script id="state" type="application/json">{"teams": {"A": {"name": "Team Anderson"}, "B": {"name": "Team French"}}, "sat": [{"a": ["Brock Anderson", "Benji Boyd"], "b": ["Clayton French", "Steve Workman"], "r": [null, null, null]}, {"a": ["Brett Dunkerly", "Rich Montgomery"], "b": ["Derek Bradbury", "Cole Bradbury"], "r": [null, null, null]}, {"a": ["Tucker Hayes", "Brian Brinegar"], "b": ["Travis Priest", "Ethan Sparks"], "r": [null, null, null]}, {"a": ["Noah Hawkins", "Jeff Stuppy"], "b": ["Mark Pirtle", "Jackson Lynn"], "r": [null, null, null]}, {"a": ["Tim Taylor", "Will Miller"], "b": ["Bryant Jackson", "Hayden Flath"], "r": [null, null, null]}, {"a": ["Beth Wernz", "Jordan Dayhoff"], "b": ["Keith Fulk", "Paul Dunkerly"], "r": [null, null, null]}, {"a": ["Brock Boyd", "Johnny Scott"], "b": ["Chris Taylor", "Marc Walton"], "r": [null, null, null]}, {"a": ["Luke Jerrells", "Dennis Johnson"], "b": ["Koye Kaiser", "Justin Beard"], "r": [null, null, null]}], "sun": [{"a": "Brock Anderson", "b": "Clayton French", "r": null}, {"a": "Benji Boyd", "b": "Steve Workman", "r": null}, {"a": "Brett Dunkerly", "b": "Derek Bradbury", "r": null}, {"a": "Rich Montgomery", "b": "Cole Bradbury", "r": null}, {"a": "Tucker Hayes", "b": "Travis Priest", "r": null}, {"a": "Brian Brinegar", "b": "Ethan Sparks", "r": null}, {"a": "Noah Hawkins", "b": "Mark Pirtle", "r": null}, {"a": "Jeff Stuppy", "b": "Jackson Lynn", "r": null}, {"a": "Tim Taylor", "b": "Bryant Jackson", "r": null}, {"a": "Will Miller", "b": "Hayden Flath", "r": null}, {"a": "Beth Wernz", "b": "Keith Fulk", "r": null}, {"a": "Jordan Dayhoff", "b": "Paul Dunkerly", "r": null}, {"a": "Brock Boyd", "b": "Chris Taylor", "r": null}, {"a": "Johnny Scott", "b": "Marc Walton", "r": null}, {"a": "Luke Jerrells", "b": "Koye Kaiser", "r": null}, {"a": "Dennis Johnson", "b": "Justin Beard", "r": null}], "set": true, "title": "The Woody"}</script>
+<script>
+const S=JSON.parse(document.getElementById('state').textContent);
+const F=["Best Ball","Scramble","Alt Shot"];
+let tab="sat",admin=false;
+const $=id=>document.getElementById(id);
+const pts=r=>!r?[0,0]:r.w==="A"?[1,0]:r.w==="B"?[0,1]:r.w==="H"?[.5,.5]:[0,0];
+function tot(){let a=0,b=0,n=0,sat=[0,0],sun=[0,0];
+ const add=(r,t)=>{const p=pts(r);t[0]+=p[0];t[1]+=p[1];if(r&&r.w)n++};
+ S.sat.forEach(m=>m.r.forEach(r=>add(r,sat)));S.sun.forEach(m=>add(m.r,sun));
+ return{a:sat[0]+sun[0],b:sat[1]+sun[1],n,sat,sun}}
+const ch=(r,side)=>r&&r.w===side?`<span class="ch ${side}">${r.m||"W"}</span>`:"";
+const rec=(side,n)=>{let w=0,l=0,d=0;const add=r=>{if(!r||!r.w)return;if(r.w==="H")d++;else if(r.w===side)w++;else l++};
+ S.sat.forEach(m=>{if(m[side.toLowerCase()].includes(n))m.r.forEach(add)});
+ S.sun.forEach(m=>{if(m[side.toLowerCase()]===n)add(m.r)});return[w,l,d,w+d/2]};
+function render(){
+ const t=tot();
+ $('ttl').textContent=S.title||"Cup";
+ $('sa').textContent=t.a;$('sb').textContent=t.b;$('na').textContent=S.teams.A.name;$('nb').textContent=S.teams.B.name;
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
+ const sq=k=>`<i class="sq ${k}"></i>`;
+ const nm=(k,l)=>[].concat(l).map((n,i)=>`<div class="pn">${i===0&&k==="A"?sq(k):""}${n}${i===0&&k==="B"?sq(k):""}</div>`).join("");
+ const day=(name,sub,sc)=>`<div class="day"><div><b>${name}</b><span class="sub">${sub}</span></div><div class="ds"><div>${sq("A")}${sc[0]}</div><div>${sq("B")}${sc[1]}</div></div></div>`;
+ const row=(r,mid,set)=>{const w=r&&r.w;
+  const side=k=>w===k?`<span class="ch ${k}">${admin?`<input data-k="m" data-s="${set}" value="${r.m||""}" placeholder="W" aria-label="Margin of victory">`:(r.m||"W")}</span>`:(admin&&!w?`<button class="pk ${k}" data-pick="${k}" data-s="${set}">Win</button>`:"");
+  const mid2=w==="H"?(admin?`<button class="ch H" data-pick="" data-s="${set}" aria-label="Clear halved">Halved ×</button>`:'<span class="ch H">Halved</span>'):(admin&&!w?`<button class="pk" data-pick="H" data-s="${set}">Halve</button>`:"");
+  return `<div class="g rw"><div>${side("A")}</div><div class="c"><span class="fm">${mid}</span>${mid2?`<div style="margin-top:3px">${mid2}</div>`:""}${admin&&w&&w!=="H"?`<div><button class="lk" data-pick="" data-s="${set}">Clear</button></div>`:""}</div><div>${side("B")}</div></div>`};
+ let h="";
+ if(!S.set&&tab!=="roster")h=`<div class="empty">${tab==="sat"?"Saturday":"Sunday"} matchups<small>Posted here Friday night.</small></div>`;
+ else if(tab==="sat"){h=day("Saturday","Two-man teams · 3 parts per match · 1 point each",t.sat);
+  S.sat.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>`;
+   m.r.forEach((r,j)=>{h+=row(r,F[j],"s"+i+"-"+j)});h+="</section>"})}
+ else if(tab==="sun"){h=day("Sunday","Singles · 16 matches · 1 point each",t.sun);
+  S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>${row(m.r,"Singles","u"+i)}</section>`})}
+ else{h=`<div class="day"><div><b>Players</b><span class="sub">${S.set?"Record: wins-losses-halves":"Rosters"}</span></div></div>`;
+  ["A","B"].forEach(k=>{const names=S.sun.map(m=>m[k.toLowerCase()]);
+   h+=`<section class="card"><div class="th ${k}">${S.teams[k].name}</div>`;
+   if(!S.set)h+=names.map(n=>`<div class="pr"><span>${n}</span></div>`).join("");
+   else{h+=`<div class="pr h"><span>Player</span><span>W-L-H</span><span>Pts</span></div>`;
+    names.map((n,i)=>({n,i,r:rec(k,n)})).sort((x,y)=>y.r[3]-x.r[3]||x.i-y.i).forEach(o=>{h+=`<div class="pr"><span>${o.n}</span><span>${o.r[0]}-${o.r[1]}-${o.r[2]}</span><span><b>${o.r[3]}</b></span></div>`})}
+   h+="</section>"});
+  if(S.set)h+=`<p class="note">Saturday parts count for both partners.</p>`}
+ $('app').innerHTML=h;
+ $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v4";
+}
+function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
+ let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
+ if(g==="s")S.sat[i].r[j]=r;else S.sun[i].r=r;render();save()}
+$('app').addEventListener('change',e=>{const d=e.target.dataset;if(d.s&&d.k==="m")setRes(d.s,r=>r?Object.assign({},r,{m:e.target.value.trim()}):r)});
+$('app').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(!b)return;const v=b.dataset.pick;setRes(b.dataset.s,()=>v?{w:v,m:""}:null)});
+const toMap=()=>{const m={};S.sat.forEach((x,i)=>x.r.forEach((r,j)=>{if(r&&r.w)m["s"+i+"-"+j]=r.w+"|"+(r.m||"")}));S.sun.forEach((x,i)=>{if(x.r&&x.r.w)m["u"+i]=x.r.w+"|"+(x.r.m||"")});return m};
+const fromMap=m=>{m=m||{};const g=k=>{const v=m[k];if(typeof v!=="string")return null;const [w,...mm]=v.split("|");return w?{w,m:mm.join("|")}:null};
+ S.sat.forEach((x,i)=>{x.r=[0,1,2].map(j=>g("s"+i+"-"+j))});S.sun.forEach((x,i)=>{x.r=g("u"+i)})};
+const P=new URLSearchParams(location.search),BID=null,DB=P.get('db')||'woody-dc613-default-rtdb.firebaseio.com';
+const DBU=DB?(window.WOODY_DB||('https://'+DB.replace(/^https?:\/\//,'').replace(/\/+$/,'')))+'/woody.json':null;
+const ENDS=DBU?[DBU]:BID?[(window.WOODY_API||'https://jsonblob.com/api/jsonBlob/')+BID,'https://api.jsonblob.com/woody?blobId='+BID]:[];
+const CTS=['application/json','text/plain;charset=UTF-8'];
+const API=ENDS[0];let good=null,dirty=false,busy=false,live=true;
+const setMsg=(m,bad)=>{$('msg').textContent=m;$('bar').style.background=bad?'#8a1020':''};
+const tries=()=>{const all=[];ENDS.forEach(u=>CTS.forEach(c=>all.push([u,c])));return good?[good].concat(all.filter(x=>x!==good)):all};
+async function flush(){if(busy||!dirty)return;busy=true;dirty=false;setMsg("Saving...");const errs=[];let done=false;
+ for(const [u,c] of tries()){try{const r=await fetch(u,{method:'PUT',headers:{'Content-Type':c,'Accept':'application/json'},body:JSON.stringify(DBU?toMap():S)});if(r.ok){good=[u,c];done=true;break}errs.push(r.status)}catch(e){errs.push('blocked')}}
+ busy=false;
+ if(done){setMsg("Saved. Everyone's screen updates within seconds.");if(dirty)flush()}
+ else{dirty=true;setMsg("Not saved. Error: "+[...new Set(errs)].join(", ")+". Will retry in 10 seconds.",true);setTimeout(flush,10000)}}
+function save(){if(!API){setMsg("No scoreboard linked.",true);return}dirty=true;flush()}
+document.querySelector('nav').addEventListener('click',e=>{if(e.target.dataset.t){tab=e.target.dataset.t;render()}});
+admin=/[?&]admin/.test(location.search);
+let why="";
+async function load(){let ok=false;why="";
+ if(!ENDS.length){try{const r=await fetch('data.json?'+Date.now(),{cache:'no-store'});if(r.ok){Object.assign(S,await r.json());ok=true}}catch(e){}}
+ else for(const u of (good?[good[0]]:ENDS)){try{const r=await fetch(u,{cache:'no-store',headers:{'Accept':'application/json'}});if(r.ok){const d=await r.json();if(DBU)fromMap(d);else Object.assign(S,d);ok=true;break}why="error "+r.status}catch(e){why="blocked"}}
+ live=ok;if(!ok&&ENDS.length){if(admin)setMsg("Can't reach the scoreboard database ("+why+"). Scores will not save.",true);else $('hint').textContent="Reconnecting to the scoreboard..."}}
+render();
+if(admin){$('bar').hidden=false;setMsg(API?"Scorekeeper mode: tap Win or Halve. Scores save automatically.":"No scoreboard linked.",!API)}
+load().then(()=>{render();if(admin)$('bar').hidden=false;if(admin&&live&&API)setMsg('Scorekeeper mode: tap Win or Halve. Scores save automatically.')});
+if(!admin)setInterval(()=>load().then(render),15000);
+</script></body></html>
