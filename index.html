@@ -103,7 +103,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v6";
+ $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v7";
 }
 function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
  let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
@@ -138,11 +138,7 @@ async function load(){let ok=false;why="";
  const base=DBU.replace(/\/woody\.json$/,''),u=base+'/views.json';
  const show=n=>{$('views').textContent=Number(n).toLocaleString()};
  try{
-  let counted=false;try{counted=sessionStorage.getItem('woodyCounted')==='1'}catch(e){}
-  if(!counted){
-   await fetch(u,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({".sv":{"increment":1}})});
-   try{sessionStorage.setItem('woodyCounted','1')}catch(e){}
-  }
+  await fetch(u,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({".sv":{"increment":1}})});
   const r=await fetch(u,{cache:'no-store'});if(r.ok){const n=await r.json();if(typeof n==="number")show(n)}
  }catch(e){}
 })();
