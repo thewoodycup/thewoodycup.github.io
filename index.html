@@ -58,7 +58,7 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 <header class="hero"><div class="wrap"><h1 id="ttl"></h1><div class="cap">First to 20.5 points wins</div>
 <div class="sb"><div class="tm A"><div class="num" id="sa">0</div><div class="nm" id="na"></div></div><div class="tm B"><div class="num" id="sb">0</div><div class="nm" id="nb"></div></div></div></div></header>
 <nav><div class="wrap tabs"><button data-t="sat">Saturday</button><button data-t="sun">Sunday</button><button data-t="roster">Players</button></div></nav>
-<main><div id="app"></div><div class="hint" id="hint"></div></main>
+<main><div id="app"></div><div class="hint" id="hint"></div><div class="hint" id="views" style="margin-top:4px"></div></main>
 <div id="bar" hidden style="position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;align-items:center;z-index:9"><span id="msg" style="flex:1;font-size:13px"></span></div>
 <script id="state" type="application/json">{"teams": {"A": {"name": "Team Anderson"}, "B": {"name": "Team French"}}, "sat": [{"a": ["Brock Anderson", "Benji Boyd"], "b": ["Clayton French", "Steve Workman"], "r": [null, null, null]}, {"a": ["Brett Dunkerly", "Rich Montgomery"], "b": ["Derek Bradbury", "Cole Bradbury"], "r": [null, null, null]}, {"a": ["Tucker Hayes", "Brian Brinegar"], "b": ["Travis Priest", "Ethan Sparks"], "r": [null, null, null]}, {"a": ["Noah Hawkins", "Jeff Stuppy"], "b": ["Mark Pirtle", "Jackson Lynn"], "r": [null, null, null]}, {"a": ["Tim Taylor", "Will Miller"], "b": ["Bryant Jackson", "Hayden Flath"], "r": [null, null, null]}, {"a": ["Beth Wernz", "Jordan Dayhoff"], "b": ["Keith Fulk", "Paul Dunkerly"], "r": [null, null, null]}, {"a": ["Brock Boyd", "Johnny Scott"], "b": ["Chris Taylor", "Marc Walton"], "r": [null, null, null]}, {"a": ["Luke Jerrells", "Dennis Johnson"], "b": ["Koye Kaiser", "Justin Beard"], "r": [null, null, null]}], "sun": [{"a": "Brock Anderson", "b": "Clayton French", "r": null}, {"a": "Benji Boyd", "b": "Steve Workman", "r": null}, {"a": "Brett Dunkerly", "b": "Derek Bradbury", "r": null}, {"a": "Rich Montgomery", "b": "Cole Bradbury", "r": null}, {"a": "Tucker Hayes", "b": "Travis Priest", "r": null}, {"a": "Brian Brinegar", "b": "Ethan Sparks", "r": null}, {"a": "Noah Hawkins", "b": "Mark Pirtle", "r": null}, {"a": "Jeff Stuppy", "b": "Jackson Lynn", "r": null}, {"a": "Tim Taylor", "b": "Bryant Jackson", "r": null}, {"a": "Will Miller", "b": "Hayden Flath", "r": null}, {"a": "Beth Wernz", "b": "Keith Fulk", "r": null}, {"a": "Jordan Dayhoff", "b": "Paul Dunkerly", "r": null}, {"a": "Brock Boyd", "b": "Chris Taylor", "r": null}, {"a": "Johnny Scott", "b": "Marc Walton", "r": null}, {"a": "Luke Jerrells", "b": "Koye Kaiser", "r": null}, {"a": "Dennis Johnson", "b": "Justin Beard", "r": null}], "set": true, "title": "The Woody"}</script>
 <script>
@@ -103,7 +103,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v4";
+ $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v6";
 }
 function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
  let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
@@ -133,6 +133,20 @@ async function load(){let ok=false;why="";
  if(!ENDS.length){try{const r=await fetch('data.json?'+Date.now(),{cache:'no-store'});if(r.ok){Object.assign(S,await r.json());ok=true}}catch(e){}}
  else for(const u of (good?[good[0]]:ENDS)){try{const r=await fetch(u,{cache:'no-store',headers:{'Accept':'application/json'}});if(r.ok){const d=await r.json();if(DBU)fromMap(d);else Object.assign(S,d);ok=true;break}why="error "+r.status}catch(e){why="blocked"}}
  live=ok;if(!ok&&ENDS.length){if(admin)setMsg("Can't reach the scoreboard database ("+why+"). Scores will not save.",true);else $('hint').textContent="Reconnecting to the scoreboard..."}}
+(async()=>{
+ if(!DBU||admin)return;
+ const base=DBU.replace(/\/woody\.json$/,''),u=base+'/views.json';
+ const show=n=>{$('views').textContent=Number(n).toLocaleString()};
+ try{
+  let counted=false;try{counted=sessionStorage.getItem('woodyCounted')==='1'}catch(e){}
+  if(!counted){
+   await fetch(u,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({".sv":{"increment":1}})});
+   try{sessionStorage.setItem('woodyCounted','1')}catch(e){}
+  }
+  const r=await fetch(u,{cache:'no-store'});if(r.ok){const n=await r.json();if(typeof n==="number")show(n)}
+ }catch(e){}
+})();
+
 render();
 if(admin){$('bar').hidden=false;setMsg(API?"Scorekeeper mode: tap Win or Halve. Scores save automatically.":"No scoreboard linked.",!API)}
 load().then(()=>{render();if(admin)$('bar').hidden=false;if(admin&&live&&API)setMsg('Scorekeeper mode: tap Win or Halve. Scores save automatically.')});
