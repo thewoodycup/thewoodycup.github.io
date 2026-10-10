@@ -113,7 +113,7 @@ function render(){
   S.sat.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>`;
    m.r.forEach((r,j)=>{h+=row(r,F[j],"s"+i+"-"+j)});h+="</section>"})}
  else if(tab==="sun"){h=day("Sunday","Singles · 16 matches · 1 point each",t.sun);
-  const tee=i=>{const t=540+8*Math.floor(i/2);return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")+" AM"};S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}${odd(m.oa)}</div><div class="c">vs<div class="tt">${tee(i)}</div></div><div>${nm("B",m.b)}${odd(m.ob)}</div></div>${row(m.r,"Singles","u"+i)}</section>`});h+=`<p class="note">Odds are pregame moneylines from each player's average score. A halved match is a push. For fun only.</p>`}
+  const tee=i=>{const t=540+8*Math.floor(i/2);return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")+" AM"};S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}${odd(m.oa)}</div><div class="c">vs<div class="tt">${tee(i)}</div></div><div>${nm("B",m.b)}${odd(m.ob)}</div></div>${row(m.r,"Singles","u"+i)}</section>`});h+=`<p class="note">Odds are pregame moneylines from each player's average score. A halved match is a push.</p>`}
  else{h=`<div class="day"><div><b>Players</b><span class="sub">${S.set?"Record: wins-losses-halves":"Rosters"}</span></div></div>`;
   ["A","B"].forEach(k=>{const names=S.sun.map(m=>m[k.toLowerCase()]);
    h+=`<section class="card"><div class="th ${k}">${S.teams[k].name}</div>`;
@@ -123,7 +123,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v13";
+ $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v14";
 }
 function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
  let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
