@@ -34,7 +34,7 @@ main{max-width:720px;margin:0 auto;padding:12px 12px 28px}
 .hd{min-height:56px;padding-top:10px;padding-bottom:10px;font:700 20px/1.2 var(--disp);letter-spacing:.01em;border-bottom:1px solid var(--ln)}
 .hd .sq{margin:0 6px 0 0}.hd>:last-child .sq{margin:0 0 0 6px}
 .hd .c{color:var(--mu);font:600 13px var(--body);text-transform:none;letter-spacing:0}
-.od{font:600 13px/1 var(--body);color:var(--mu);margin-top:4px;font-variant-numeric:tabular-nums}.od.fav{color:var(--tx);font-weight:600}.pn{white-space:normal;overflow-wrap:break-word;font-size:clamp(14px,4.1vw,19px)}.rw{min-height:62px;border-top:1px solid var(--ln)}.hd+.rw{border-top:0}
+.tt{font:600 12px/1.2 var(--body);color:var(--mu);margin-top:4px;white-space:nowrap}.od{font:600 13px/1 var(--body);color:var(--mu);margin-top:4px;font-variant-numeric:tabular-nums}.od.fav{color:var(--tx);font-weight:600}.pn{white-space:normal;overflow-wrap:break-word;font-size:clamp(14px,4.1vw,19px)}.rw{min-height:62px;border-top:1px solid var(--ln)}.hd+.rw{border-top:0}
 .fm{font:600 13px var(--body);color:var(--mu)}
 .ch{display:inline-block;min-width:54px;text-align:center;font:700 19px/1 var(--disp);letter-spacing:.03em;padding:6px 10px;text-transform:uppercase}
 .ch.A{background:var(--red);color:#fff}.ch.B{background:#fff;color:#0a1a33;box-shadow:inset 0 0 0 1.5px #0a1a33}.ch.H{background:var(--ln);color:var(--tx)}
@@ -113,7 +113,7 @@ function render(){
   S.sat.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>`;
    m.r.forEach((r,j)=>{h+=row(r,F[j],"s"+i+"-"+j)});h+="</section>"})}
  else if(tab==="sun"){h=day("Sunday","Singles · 16 matches · 1 point each",t.sun);
-  S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}${odd(m.oa)}</div><div class="c">vs</div><div>${nm("B",m.b)}${odd(m.ob)}</div></div>${row(m.r,"Singles","u"+i)}</section>`});h+=`<p class="note">Odds are pregame moneylines from each player's average score. A halved match is a push. For fun only.</p>`}
+  const tee=i=>{const t=540+8*Math.floor(i/2);return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")+" AM"};S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}${odd(m.oa)}</div><div class="c">vs<div class="tt">${tee(i)}</div></div><div>${nm("B",m.b)}${odd(m.ob)}</div></div>${row(m.r,"Singles","u"+i)}</section>`});h+=`<p class="note">Odds are pregame moneylines from each player's average score. A halved match is a push. For fun only.</p>`}
  else{h=`<div class="day"><div><b>Players</b><span class="sub">${S.set?"Record: wins-losses-halves":"Rosters"}</span></div></div>`;
   ["A","B"].forEach(k=>{const names=S.sun.map(m=>m[k.toLowerCase()]);
    h+=`<section class="card"><div class="th ${k}">${S.teams[k].name}</div>`;
@@ -123,7 +123,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v12";
+ $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v13";
 }
 function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
  let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
