@@ -29,12 +29,12 @@ main{max-width:720px;margin:0 auto;padding:12px 12px 28px}
 .sq{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:0}
 .sq.A{background:var(--red)}.sq.B{background:#fff;box-shadow:inset 0 0 0 1.5px var(--tx)}
 .card{background:var(--card);border:1px solid var(--ln);margin-bottom:12px}
-.g{display:grid;grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr);align-items:center;column-gap:8px;padding:0 12px}
+.g{display:grid;grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr);align-items:center;column-gap:6px;padding:0 10px}
 .g>:first-child{text-align:left}.g>:last-child{text-align:right}.g>.c{text-align:center}
 .hd{min-height:56px;padding-top:10px;padding-bottom:10px;font:700 20px/1.2 var(--disp);letter-spacing:.01em;border-bottom:1px solid var(--ln)}
 .hd .sq{margin:0 6px 0 0}.hd>:last-child .sq{margin:0 0 0 6px}
 .hd .c{color:var(--mu);font:600 13px var(--body);text-transform:none;letter-spacing:0}
-.pn{white-space:nowrap;font-size:clamp(16px,4.6vw,21px)}.rw{min-height:62px;border-top:1px solid var(--ln)}.hd+.rw{border-top:0}
+.od{font:600 13px/1 var(--body);color:var(--mu);margin-top:4px;font-variant-numeric:tabular-nums}.od.fav{color:var(--tx);font-weight:600}.pn{white-space:normal;overflow-wrap:break-word;font-size:clamp(14px,4.1vw,19px)}.rw{min-height:62px;border-top:1px solid var(--ln)}.hd+.rw{border-top:0}
 .fm{font:600 13px var(--body);color:var(--mu)}
 .ch{display:inline-block;min-width:54px;text-align:center;font:700 19px/1 var(--disp);letter-spacing:.03em;padding:6px 10px;text-transform:uppercase}
 .ch.A{background:var(--red);color:#fff}.ch.B{background:#fff;color:#0a1a33;box-shadow:inset 0 0 0 1.5px #0a1a33}.ch.H{background:var(--ln);color:var(--tx)}
@@ -61,7 +61,7 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 <nav><div class="wrap tabs"><button data-t="sat">Saturday</button><button data-t="sun">Sunday</button><button data-t="roster">Players</button></div></nav>
 <main><div id="app"></div><div class="hint" id="hint"></div><div class="hint" id="views" style="margin-top:4px"></div></main>
 <div id="bar" hidden style="position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;align-items:center;z-index:9"><span id="msg" style="flex:1;font-size:13px"></span></div>
-<script id="state" type="application/json">{"teams": {"A": {"name": "Team Anderson"}, "B": {"name": "Team French"}}, "sat": [{"a": ["Tucker Hayes", "Jordan Dayhoff"], "b": ["Derek Bradbury", "Ethan Sparks"], "r": [null, null, null]}, {"a": ["Benji Boyd", "Brock Boyd"], "b": ["Steve Workman", "Mark Pirtle"], "r": [null, null, null]}, {"a": ["Noah Hawkins", "Beth Wernz"], "b": ["Bryant Jackson", "Keith Fulk"], "r": [null, null, null]}, {"a": ["Brock Anderson", "Brett Dunkerly"], "b": ["Clayton French", "Chris Taylor"], "r": [null, null, null]}, {"a": ["Rich Montgomery", "Tim Taylor"], "b": ["Marc Walton", "Paul Dunkerly"], "r": [null, null, null]}, {"a": ["Will Miller", "Dennis Johnson"], "b": ["Hayden Flath", "Koye Kaiser"], "r": [null, null, null]}, {"a": ["Brian Brinegar", "Luke Jerrells"], "b": ["Cole Bradbury", "Justin Beard"], "r": [null, null, null]}, {"a": ["Jeff Stuppy", "Johnny Scott"], "b": ["Jackson Lynn", "Travis Priest"], "r": [null, null, null]}], "sun": [{"a": "Beth Wernz", "b": "Jackson Lynn", "r": null}, {"a": "Johnny Scott", "b": "Marc Walton", "r": null}, {"a": "Will Miller", "b": "Keith Fulk", "r": null}, {"a": "Noah Hawkins", "b": "Hayden Flath", "r": null}, {"a": "Jeff Stuppy", "b": "Justin Beard", "r": null}, {"a": "Tucker Hayes", "b": "Clayton French", "r": null}, {"a": "Brock Boyd", "b": "Chris Taylor", "r": null}, {"a": "Jordan Dayhoff", "b": "Koye Kaiser", "r": null}, {"a": "Dennis Johnson", "b": "Paul Dunkerly", "r": null}, {"a": "Brian Brinegar", "b": "Derek Bradbury", "r": null}, {"a": "Tim Taylor", "b": "Mark Pirtle", "r": null}, {"a": "Luke Jerrells", "b": "Travis Priest", "r": null}, {"a": "Benji Boyd", "b": "Steve Workman", "r": null}, {"a": "Rich Montgomery", "b": "Bryant Jackson", "r": null}, {"a": "Brett Dunkerly", "b": "Cole Bradbury", "r": null}, {"a": "Brock Anderson", "b": "Ethan Sparks", "r": null}], "set": true, "title": "The Woody", "sunSet": true}</script>
+<script id="state" type="application/json">{"teams": {"A": {"name": "Team Anderson"}, "B": {"name": "Team French"}}, "sat": [{"a": ["Tucker Hayes", "Jordan Dayhoff"], "b": ["Derek Bradbury", "Ethan Sparks"], "r": [null, null, null]}, {"a": ["Benji Boyd", "Brock Boyd"], "b": ["Steve Workman", "Mark Pirtle"], "r": [null, null, null]}, {"a": ["Noah Hawkins", "Beth Wernz"], "b": ["Bryant Jackson", "Keith Fulk"], "r": [null, null, null]}, {"a": ["Brock Anderson", "Brett Dunkerly"], "b": ["Clayton French", "Chris Taylor"], "r": [null, null, null]}, {"a": ["Rich Montgomery", "Tim Taylor"], "b": ["Marc Walton", "Paul Dunkerly"], "r": [null, null, null]}, {"a": ["Will Miller", "Dennis Johnson"], "b": ["Hayden Flath", "Koye Kaiser"], "r": [null, null, null]}, {"a": ["Brian Brinegar", "Luke Jerrells"], "b": ["Cole Bradbury", "Justin Beard"], "r": [null, null, null]}, {"a": ["Jeff Stuppy", "Johnny Scott"], "b": ["Jackson Lynn", "Travis Priest"], "r": [null, null, null]}], "sun": [{"a": "Beth Wernz", "b": "Jackson Lynn", "r": null, "oa": "+180", "ob": "-180"}, {"a": "Johnny Scott", "b": "Marc Walton", "r": null, "oa": "-115", "ob": "+115"}, {"a": "Will Miller", "b": "Keith Fulk", "r": null, "oa": "EVEN", "ob": "EVEN"}, {"a": "Noah Hawkins", "b": "Hayden Flath", "r": null, "oa": "-290", "ob": "+290"}, {"a": "Jeff Stuppy", "b": "Justin Beard", "r": null, "oa": "-390", "ob": "+390"}, {"a": "Tucker Hayes", "b": "Clayton French", "r": null, "oa": "+500", "ob": "-500"}, {"a": "Brock Boyd", "b": "Chris Taylor", "r": null, "oa": "-115", "ob": "+115"}, {"a": "Jordan Dayhoff", "b": "Koye Kaiser", "r": null, "oa": "-135", "ob": "+135"}, {"a": "Dennis Johnson", "b": "Paul Dunkerly", "r": null, "oa": "+135", "ob": "-135"}, {"a": "Brian Brinegar", "b": "Derek Bradbury", "r": null, "oa": "+220", "ob": "-220"}, {"a": "Tim Taylor", "b": "Mark Pirtle", "r": null, "oa": "+215", "ob": "-215"}, {"a": "Luke Jerrells", "b": "Travis Priest", "r": null, "oa": "+650", "ob": "-650"}, {"a": "Benji Boyd", "b": "Steve Workman", "r": null, "oa": "+190", "ob": "-190"}, {"a": "Rich Montgomery", "b": "Bryant Jackson", "r": null, "oa": "-405", "ob": "+405"}, {"a": "Brett Dunkerly", "b": "Cole Bradbury", "r": null, "oa": "-115", "ob": "+115"}, {"a": "Brock Anderson", "b": "Ethan Sparks", "r": null, "oa": "-360", "ob": "+360"}], "set": true, "title": "The Woody", "sunSet": true}</script>
 <script>
 const S=JSON.parse(document.getElementById('state').textContent);
 const F=["Best Ball","Scramble","Alt Shot"];
@@ -95,6 +95,7 @@ function render(){
  $('sa').textContent=t.a;$('sb').textContent=t.b;$('na').textContent=S.teams.A.name;$('nb').textContent=S.teams.B.name;
  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
  const sq=k=>`<i class="sq ${k}"></i>`;
+ const odd=o=>o?`<div class="od${String(o)[0]==="-"?" fav":""}">${String(o).replace("-","\u2212")}</div>`:"";
  const nm=(k,l)=>[].concat(l).map((n,i)=>`<div class="pn">${i===0&&k==="A"?sq(k):""}${n}${i===0&&k==="B"?sq(k):""}</div>`).join("");
  const day=(name,sub,sc)=>`<div class="day"><div><b>${name}</b><span class="sub">${sub}</span></div><div class="ds"><div>${sq("A")}${sc[0]}</div><div>${sq("B")}${sc[1]}</div></div></div>`;
  const row=(r,mid,set)=>{const w=r&&r.w;
@@ -108,7 +109,7 @@ function render(){
   S.sat.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>`;
    m.r.forEach((r,j)=>{h+=row(r,F[j],"s"+i+"-"+j)});h+="</section>"})}
  else if(tab==="sun"){h=day("Sunday","Singles · 16 matches · 1 point each",t.sun);
-  S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>${row(m.r,"Singles","u"+i)}</section>`})}
+  S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}${odd(m.oa)}</div><div class="c">vs</div><div>${nm("B",m.b)}${odd(m.ob)}</div></div>${row(m.r,"Singles","u"+i)}</section>`});h+=`<p class="note">Odds are pregame moneylines from each player's average score. A halved match is a push. For fun only.</p>`}
  else{h=`<div class="day"><div><b>Players</b><span class="sub">${S.set?"Record: wins-losses-halves":"Rosters"}</span></div></div>`;
   ["A","B"].forEach(k=>{const names=S.sun.map(m=>m[k.toLowerCase()]);
    h+=`<section class="card"><div class="th ${k}">${S.teams[k].name}</div>`;
@@ -118,7 +119,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v10";
+ $('hint').textContent=admin?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":"Scores refresh automatically. v11";
 }
 function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
  let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
