@@ -61,6 +61,7 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 .hc .A{background:var(--red);color:#fff;box-shadow:none;cursor:pointer}.hc .B{background:#fff;color:#0a1a33;box-shadow:inset 0 0 0 1.5px #0a1a33;cursor:pointer}.hc .H{background:var(--ln);color:var(--tx);box-shadow:none;cursor:pointer}.hc .cur{outline:3px solid var(--tx);outline-offset:1px}
 .yr{text-align:center;margin:10px 0 0}.yr select{width:auto;color-scheme:dark;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:0;font:700 18px/1 var(--disp);letter-spacing:.08em;padding:9px 12px;cursor:pointer}
 .th.N{background:var(--navy);color:#fff}.pf{grid-template-columns:1fr 92px 92px}.fp{display:block;font:500 12px var(--body);color:var(--mu);margin-top:3px}
+.hs{display:flex;gap:2px;padding:0 10px 10px}.hs i{flex:1;height:10px;background:var(--ln);opacity:.5}.hs i.A{background:var(--red);opacity:1}.hs i.B{background:#fff;box-shadow:inset 0 0 0 1px var(--tx);opacity:1}.hs i.H{background:transparent;box-shadow:inset 0 0 0 1.5px var(--mu);opacity:1}
 .lk{background:none;border:0;color:var(--mu);font:500 12px var(--body);text-decoration:underline;cursor:pointer;padding:2px}
 .note{color:var(--mu);font-size:13px;margin:4px 2px 0}
 .hint{text-align:center;color:var(--mu);font-size:12px;margin-top:14px}
@@ -123,7 +124,8 @@ function render(){
  const row=(r,mid,set,hs)=>{const w=r&&r.w;const lv=!w&&!adm&&hs?calc(hs,set[0]==="s"?9:18):null,live=lv&&lv.thru>0&&!lv.done?lv:null;
   const side=k=>w===k?`<span class="ch ${k}">${adm?`<input data-k="m" data-s="${set}" value="${r.m||""}" placeholder="W" aria-label="Margin of victory">`:(r.m||"W")}</span>`:(adm&&!w?`<button class="pk ${k}" data-pick="${k}" data-s="${set}">Win</button>`:(live&&((live.lead>0&&k==="A")||(live.lead<0&&k==="B"))?`<span class="ch lv ${k}">${Math.abs(live.lead)} UP</span>`:""));
   const mid2=w==="H"?(adm?`<button class="ch H" data-pick="" data-s="${set}" aria-label="Clear halved">Halved ×</button>`:'<span class="ch H">Halved</span>'):(adm&&!w?`<button class="pk" data-pick="H" data-s="${set}">Halve</button>`:"");
-  return `<div class="g rw"><div>${side("A")}</div><div class="c"><span class="fm">${mid}</span>${live?`<div class="lvt">${live.lead===0?"AS thru ":"Thru "}${live.thru}</div>`:""}${mid2?`<div style="margin-top:3px">${mid2}</div>`:""}${adm&&w&&w!=="H"?`<div><button class="lk" data-pick="" data-s="${set}">Clear</button></div>`:""}</div><div>${side("B")}</div></div>`};
+  const hl=set[0]==="s"?9:18,hh=hs||"",strip=(hh||(S.live&&!w))?`<div class="hs" aria-label="Hole by hole">${Array.from({length:hl},(_,k)=>{const c=hh[k]==="A"||hh[k]==="B"||hh[k]==="H"?hh[k]:"";return`<i class="${c||"n"}" title="Hole ${k+1}${c?": "+(c==="H"?"halved":(c==="A"?S.teams.A.name:S.teams.B.name)):""}"></i>`}).join("")}</div>`:"";
+  return `<div class="g rw"><div>${side("A")}</div><div class="c"><span class="fm">${mid}</span>${live?`<div class="lvt">${live.lead===0?"AS thru ":"Thru "}${live.thru}</div>`:""}${mid2?`<div style="margin-top:3px">${mid2}</div>`:""}${adm&&w&&w!=="H"?`<div><button class="lk" data-pick="" data-s="${set}">Clear</button></div>`:""}</div><div>${side("B")}</div></div>${strip}`};
  let h="";
  if(scorer)h=scorerHTML(nm);
  else if(tab==="sun"&&!S.sunSet)h=`<div class="empty">Sunday matchups<small>Posted here after Saturday.</small></div>`;
@@ -144,7 +146,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">BB best ball, SC scramble, AS alt shot. Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v16":"Final results. v16";
+ $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v17":"Final results. v17";
 }
 const P=new URLSearchParams(location.search),DB=P.get('db')||'woody-dc613-default-rtdb.firebaseio.com';
 const DBU=(window.WOODY_DB||('https://'+DB.replace(/^https?:\/\//,'').replace(/\/+$/,'')))+'/cup.json';
