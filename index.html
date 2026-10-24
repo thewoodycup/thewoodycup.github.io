@@ -66,8 +66,6 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 .th.N{background:var(--navy);color:#fff}.pf{grid-template-columns:1fr 92px 92px}.fp{display:block;font:500 12px var(--body);color:var(--mu);margin-top:3px}
 .day.rd{padding:18px 2px 10px}.day.rd b{font-size:23px}.seg{display:flex;margin:0 0 6px;border:1px solid var(--ln);background:var(--card)}.seg button{flex:1;background:none;border:0;color:var(--mu);font:700 16px/1 var(--disp);letter-spacing:.06em;text-transform:uppercase;padding:11px 4px;cursor:pointer}.seg button.on{background:var(--navy);color:#fff}
 .th.now{font-size:20px;padding:11px 12px;display:flex;align-items:center;gap:9px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 3px rgba(224,35,63,.28)}.g.nw{font:700 20px/1.2 var(--disp);padding-top:10px;padding-bottom:12px;border-top:1px solid var(--ln);align-items:start}.g.nw .ch{margin-top:7px}.g.nw .c{padding-top:2px}
-#mini{position:absolute;left:0;right:0;top:100%;display:grid;grid-template-columns:1fr 1fr;font:800 21px/1 var(--disp);letter-spacing:.03em;text-transform:uppercase;box-shadow:0 4px 10px rgba(0,0,0,.25)}
-#mini[hidden]{display:none}#mini div{padding:8px 12px;display:flex;justify-content:space-between;gap:8px}#mini .a{background:var(--red);color:#fff}#mini .b{background:#fff;color:#0a1a33}
 .hs{display:flex;justify-content:center;gap:4px;padding:2px 10px 12px}.hs.l18{gap:2px}
 .hs i{flex:1 1 0;max-width:30px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:50%;font:700 12px/1 var(--body);font-style:normal;font-variant-numeric:tabular-nums;min-width:0}.hs.l18 i{font-size:10px}
 .hs i.A{background:var(--red);color:#fff}.hs i.B{background:#fff;color:#0a1a33;box-shadow:inset 0 0 0 1.5px #0a1a33}.hs i.H{background:rgba(128,140,160,.45);color:var(--tx)}
@@ -85,7 +83,7 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 </style></head><body>
 <header class="hero"><div class="wrap"><h1 id="ttl"></h1><button id="shb" aria-label="Share the score"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg></button><div class="yr" id="yrw"><button id="yb" aria-label="Choose year" aria-haspopup="true" aria-expanded="false"><i></i><i></i><i></i></button><div id="ym" role="menu" hidden></div></div><div class="cap">First to 20.5 points wins</div>
 <div class="sb"><div class="tm A"><div class="num" id="sa">0</div><div class="nm" id="na"></div></div><div class="tm B"><div class="num" id="sb">0</div><div class="nm" id="nb"></div></div></div><div class="wp" id="wp"></div></div></header>
-<nav><div id="mini" hidden></div><div class="wrap tabs"><button data-t="sat">Saturday</button><button data-t="sun">Sunday</button><button data-t="roster">Players</button></div></nav>
+<nav><div class="wrap tabs"><button data-t="sat">Saturday</button><button data-t="sun">Sunday</button><button data-t="roster">Players</button></div></nav>
 <main><div id="app"></div><div class="hint" id="hint"></div><div class="hint" id="views" style="margin-top:4px"></div></main>
 <div id="sh" hidden role="dialog" aria-label="Share the score"><div class="shc"><div class="sht">Share the score</div><img id="shi" alt="Score picture"><div class="shn" id="shn">Tap Share picture, then choose Save Image to put it in Photos. Or press and hold the picture.</div><div class="shr"><button id="shs" class="shp">Share picture</button><button id="shl">Share link</button><button id="shx" style="flex-basis:100%">Close</button></div></div></div>
 <div id="bar" hidden style="position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#fff;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;align-items:center;z-index:9"><span id="msg" style="flex:1;font-size:13px"></span></div>
@@ -159,7 +157,6 @@ const teamFmt=()=>{const o=[[0,0],[0,0],[0,0],[0,0]];S.sat.forEach(m=>m.r.forEac
 function render(){
  const t=tot();drawProb(t);const adm=admin&&S.live;
  $('ttl').textContent=S.title||"Cup";document.querySelector('.cap').textContent=S.live?"First to "+(TOT()/2+.5)+" points wins":S.year+" \u00b7 Final result";
- $('mini').innerHTML=`<div class="a"><span>${S.teams.A.name.replace(/^Team /,"")}</span><span>${t.a}</span></div><div class="b"><span>${t.b}</span><span>${S.teams.B.name.replace(/^Team /,"")}</span></div>`;
  $('sa').textContent=t.a;$('sb').textContent=t.b;$('na').textContent=S.teams.A.name;$('nb').textContent=S.teams.B.name;
  if(scorer){document.querySelector('nav').style.display='none'}
  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
@@ -202,7 +199,7 @@ function render(){
   if(nw.length){const lnm=(k,l)=>[].concat(l).map((n,i)=>`<div class="pn">${i===0&&k==="A"?sq(k):""}${n}${i===0&&k==="B"?sq(k):""}</div>`).join("");
    h=`<section class="card"><div class="th N now"><i class="dot"></i>On the course now</div>`+nw.map(o=>`<div class="g nw"><div>${lnm("A",o.a)}${o.c.lead>0?`<span class="ch lv A">${o.c.lead} UP</span>`:""}</div><div class="c"><span class="fm">${o.f}</span><div class="lvt">${o.c.lead===0?"AS thru ":"Thru "}${o.c.thru}</div></div><div>${lnm("B",o.b)}${o.c.lead<0?`<span class="ch lv B">${-o.c.lead} UP</span>`:""}</div></div>${tilesHTML(o.hs,o.len)}`).join("")+`</section>`+h}}
  $('app').innerHTML=h;
- $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v29":"Final results. v29";
+ $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v30":"Final results. v30";
 }
 const P=new URLSearchParams(location.search),DB=P.get('db')||'woody-dc613-default-rtdb.firebaseio.com';
 const DBU=(window.WOODY_DB||('https://'+DB.replace(/^https?:\/\//,'').replace(/\/+$/,'')))+'/cup.json';
@@ -355,7 +352,6 @@ $('shl').addEventListener('click',async()=>{const u=shUrl||(location.origin+loca
 if(scorer)$('shb').style.display='none';
 document.addEventListener('keydown',e=>{if(e.key==="Escape")$('sh').hidden=true});
 
-try{new IntersectionObserver(es=>{$('mini').hidden=scorer||es[0].isIntersecting},{threshold:0}).observe(document.querySelector('.hero'))}catch(e){}
 if(scorer){document.querySelector('.cap').style.display='none';document.querySelector('.sb').style.display='none';$('wp').style.display='none';document.body.style.paddingBottom='70px'}
 const ym=$('ym'),yb=$('yb');
 const drawYears=()=>{ym.innerHTML='<div class="yh">Year</div>'+YEARS.map((y,i)=>`<button role="menuitem" data-y="${i}" class="${y===S?"on":""}">${y.year}${y.live?"<small>live</small>":""}</button>`).join("")};
