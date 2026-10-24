@@ -65,6 +65,7 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 #ym button{display:block;width:100%;text-align:left;background:none;border:0;border-left:4px solid transparent;color:var(--tx);font:700 22px/1 var(--disp);letter-spacing:.04em;padding:12px 14px;cursor:pointer}#ym button.on{border-left-color:var(--red)}#ym button small{font:500 12px var(--body);color:var(--mu);letter-spacing:0;margin-left:6px}
 .th.N{background:var(--navy);color:#fff}.pf{grid-template-columns:1fr 92px 92px}.fp{display:block;font:500 12px var(--body);color:var(--mu);margin-top:3px}
 .hs{display:flex;gap:2px;padding:0 10px 10px}.hs i{flex:1;height:10px;background:var(--ln);opacity:.5}.hs i.A{background:var(--red);opacity:1}.hs i.B{background:#fff;box-shadow:inset 0 0 0 1px var(--tx);opacity:1}.hs i.H{background:transparent;box-shadow:inset 0 0 0 1.5px var(--mu);opacity:1}
+.day.rd{padding:18px 2px 10px}.day.rd b{font-size:23px}.seg{display:flex;margin:0 0 6px;border:1px solid var(--ln);background:var(--card)}.seg button{flex:1;background:none;border:0;color:var(--mu);font:700 16px/1 var(--disp);letter-spacing:.06em;text-transform:uppercase;padding:11px 4px;cursor:pointer}.seg button.on{background:var(--navy);color:#fff}
 .lk{background:none;border:0;color:var(--mu);font:500 12px var(--body);text-decoration:underline;cursor:pointer;padding:2px}
 .note{color:var(--mu);font-size:13px;margin:4px 2px 0}
 .hint{text-align:center;color:var(--mu);font-size:12px;margin-top:14px}
@@ -82,7 +83,7 @@ const YEARS=JSON.parse(document.getElementById('state').textContent).years;
 const LIVE=YEARS.find(y=>y.live);
 let S=LIVE||YEARS[0];
 const F=["Best Ball","Scramble","Alt Shot"];
-let tab="sat",admin=false;
+let tab="sat",admin=false,satView="round";
 const $=id=>document.getElementById(id);
 const pts=r=>!r?[0,0]:r.w==="A"?[1,0]:r.w==="B"?[0,1]:r.w==="H"?[.5,.5]:[0,0];
 function winProb(t){const rem=40-t.n;
@@ -123,18 +124,22 @@ function render(){
  const odd=o=>o?`<div class="od${String(o)[0]==="-"?" fav":""}">${String(o).replace("-","\u2212")}</div>`:"";
  const nm=(k,l)=>[].concat(l).map((n,i)=>`<div class="pn">${i===0&&k==="A"?sq(k):""}${n}${i===0&&k==="B"?sq(k):""}</div>`).join("");
  const cl=k=>adm?`<div style="text-align:center;padding:6px;border-top:1px solid var(--ln)"><button class="lk" data-copy="${k}">Copy scorer link</button></div>`:"";
- const day=(name,sub,sc)=>`<div class="day"><div><b>${name}</b><span class="sub">${sub}</span></div><div class="ds"><div>${sq("A")}${sc[0]}</div><div>${sq("B")}${sc[1]}</div></div></div>`;
+ const day=(name,sub,sc,cls)=>`<div class="day${cls?" "+cls:""}"><div><b>${name}</b><span class="sub">${sub}</span></div><div class="ds"><div>${sq("A")}${sc[0]}</div><div>${sq("B")}${sc[1]}</div></div></div>`;
  const row=(r,mid,set,hs)=>{const w=r&&r.w;const lv=!w&&!adm&&hs?calc(hs,set[0]==="s"?9:18):null,live=lv&&lv.thru>0&&!lv.done?lv:null;
   const side=k=>w===k?`<span class="ch ${k}">${adm?`<input data-k="m" data-s="${set}" value="${r.m||""}" placeholder="W" aria-label="Margin of victory">`:(r.m||"W")}</span>`:(adm&&!w?`<button class="pk ${k}" data-pick="${k}" data-s="${set}">Win</button>`:(live&&((live.lead>0&&k==="A")||(live.lead<0&&k==="B"))?`<span class="ch lv ${k}">${Math.abs(live.lead)} UP</span>`:""));
   const mid2=w==="H"?(adm?`<button class="ch H" data-pick="" data-s="${set}" aria-label="Clear halved">Halved ×</button>`:'<span class="ch H">Halved</span>'):(adm&&!w?`<button class="pk" data-pick="H" data-s="${set}">Halve</button>`:"");
-  const hl=set[0]==="s"?9:18,hh=hs||"",strip=(hh||(S.live&&!w))?`<div class="hs" aria-label="Hole by hole">${Array.from({length:hl},(_,k)=>{const c=hh[k]==="A"||hh[k]==="B"||hh[k]==="H"?hh[k]:"";return`<i class="${c||"n"}" title="Hole ${k+1}${c?": "+(c==="H"?"halved":(c==="A"?S.teams.A.name:S.teams.B.name)):""}"></i>`}).join("")}</div>`:"";
+  const hl=set[0]==="s"?9:18,hh=(hs||"").slice(0,calc(hs,hl).thru),strip=(hh||(S.live&&!w))?`<div class="hs" aria-label="Hole by hole">${Array.from({length:hl},(_,k)=>{const c=hh[k]==="A"||hh[k]==="B"||hh[k]==="H"?hh[k]:"";return`<i class="${c||"n"}" title="Hole ${k+1}${c?": "+(c==="H"?"halved":(c==="A"?S.teams.A.name:S.teams.B.name)):""}"></i>`}).join("")}</div>`:"";
   return `<div class="g rw"><div>${side("A")}</div><div class="c"><span class="fm">${mid}</span>${live?`<div class="lvt">${live.lead===0?"AS thru ":"Thru "}${live.thru}</div>`:""}${mid2?`<div style="margin-top:3px">${mid2}</div>`:""}${adm&&w&&w!=="H"?`<div><button class="lk" data-pick="" data-s="${set}">Clear</button></div>`:""}</div><div>${side("B")}</div></div>${strip}`};
  let h="";
  if(scorer)h=scorerHTML(nm);
  else if(tab==="sun"&&!S.sunSet)h=`<div class="empty">Sunday matchups<small>Posted here after Saturday.</small></div>`;
  else if(tab==="sat"&&!S.set)h=`<div class="empty">Saturday matchups<small>Coming soon.</small></div>`;
- else if(tab==="sat"){h=day("Saturday","Two-man teams · 3 parts per match · 1 point each",t.sat);
-  S.sat.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>`;
+ else if(tab==="sat"){h=day("Saturday","Two-man teams · 3 rounds · 1 point per match",t.sat);
+  h+=`<div class="seg"><button data-v="round" class="${satView==="round"?"on":""}">By round</button><button data-v="pair" class="${satView==="pair"?"on":""}">By pairing</button></div>`;
+  if(satView==="round"){const tf=teamFmt();
+   F.forEach((f,j)=>{h+=day(f,"Round "+(j+1)+" · 9 holes · 8 points",tf[j],"rd");
+    S.sat.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>${row(m.r[j],"","s"+i+"-"+j,m.h&&m.h[j])}${j===0?cl("s"+i):""}</section>`})})}
+  else S.sat.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}</div><div class="c">vs</div><div>${nm("B",m.b)}</div></div>`;
    m.r.forEach((r,j)=>{h+=row(r,F[j],"s"+i+"-"+j,m.h&&m.h[j])});h+=cl("s"+i)+"</section>"})}
  else if(tab==="sun"){h=day("Sunday","Singles · 16 matches · 1 point each",t.sun);
   const tee=i=>{const t=540+8*Math.floor(i/2);return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")+" AM"};S.sun.forEach((m,i)=>{h+=`<section class="card"><div class="g hd"><div>${nm("A",m.a)}${odd(m.oa)}</div><div class="c">vs<div class="tt">${tee(i)}</div></div><div>${nm("B",m.b)}${odd(m.ob)}</div></div>${row(m.r,"Singles","u"+i,m.h)}${cl("u"+i)}</section>`});h+=`<p class="note">Odds are pregame moneylines from each player's average score. A halved match is a push.</p>`}
@@ -149,7 +154,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">BB best ball, SC scramble, AS alt shot. Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v18":"Final results. v18";
+ $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v19":"Final results. v19";
 }
 const P=new URLSearchParams(location.search),DB=P.get('db')||'woody-dc613-default-rtdb.firebaseio.com';
 const DBU=(window.WOODY_DB||('https://'+DB.replace(/^https?:\/\//,'').replace(/\/+$/,'')))+'/cup.json';
@@ -170,6 +175,7 @@ async function flush(){if(busy||!dirty.size)return;busy=true;setMsg("Saving...")
 function setRes(s,fn){const g=s[0],[i,j]=s.slice(1).split("-").map(Number);
  let r=(g==="s"?S.sat[i].r[j]:S.sun[i].r);r=fn(r);
  if(g==="s")S.sat[i].r[j]=r;else S.sun[i].r=r;render();dirty.add("cup/"+s);flush()}
+$('app').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b){satView=b.dataset.v;render()}});
 $('app').addEventListener('change',e=>{const d=e.target.dataset;if(d.s&&d.k==="m")setRes(d.s,r=>r?Object.assign({},r,{m:e.target.value.trim()}):r)});
 $('app').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(!b)return;const v=b.dataset.pick;setRes(b.dataset.s,()=>v?{w:v,m:""}:null)});
 const fromMap=(m,T=LIVE)=>{m=m||{};const g=k=>{const v=m[k];if(typeof v!=="string")return null;const [w,...mm]=v.split("|");return w?{w,m:mm.join("|")}:null};
