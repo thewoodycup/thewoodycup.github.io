@@ -59,7 +59,10 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 .bt .A{background:var(--red);color:#fff}.bt .B{background:#fff;color:#0a1a33;box-shadow:inset 0 0 0 2px #0a1a33}.bt .H{background:var(--ln);color:var(--tx)}
 .hc{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;padding:4px 12px 12px}.hc button{border:0;height:42px;background:transparent;box-shadow:inset 0 0 0 1.5px var(--ln);color:var(--mu);font:700 17px/1 var(--disp);cursor:default;padding:0}
 .hc .A{background:var(--red);color:#fff;box-shadow:none;cursor:pointer}.hc .B{background:#fff;color:#0a1a33;box-shadow:inset 0 0 0 1.5px #0a1a33;cursor:pointer}.hc .H{background:var(--ln);color:var(--tx);box-shadow:none;cursor:pointer}.hc .cur{outline:3px solid var(--tx);outline-offset:1px}
-.yr{text-align:center;margin:10px 0 0}.yr select{width:auto;color-scheme:dark;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:0;font:700 18px/1 var(--disp);letter-spacing:.08em;padding:9px 12px;cursor:pointer}
+.hero{position:relative}.yr{position:absolute;left:6px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:20}
+#yb{width:48px;height:48px;background:none;border:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;-webkit-tap-highlight-color:transparent}#yb i{display:block;width:22px;height:2.5px;background:#fff;border-radius:2px}#yb:focus-visible{outline:3px solid #fff;outline-offset:-4px}
+#ym{position:absolute;left:6px;top:50px;min-width:150px;background:var(--card);color:var(--tx);border:1px solid var(--ln);box-shadow:0 8px 24px rgba(0,0,0,.35)}#ym .yh{padding:10px 14px 6px;font:600 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+#ym button{display:block;width:100%;text-align:left;background:none;border:0;border-left:4px solid transparent;color:var(--tx);font:700 22px/1 var(--disp);letter-spacing:.04em;padding:12px 14px;cursor:pointer}#ym button.on{border-left-color:var(--red)}#ym button small{font:500 12px var(--body);color:var(--mu);letter-spacing:0;margin-left:6px}
 .th.N{background:var(--navy);color:#fff}.pf{grid-template-columns:1fr 92px 92px}.fp{display:block;font:500 12px var(--body);color:var(--mu);margin-top:3px}
 .hs{display:flex;gap:2px;padding:0 10px 10px}.hs i{flex:1;height:10px;background:var(--ln);opacity:.5}.hs i.A{background:var(--red);opacity:1}.hs i.B{background:#fff;box-shadow:inset 0 0 0 1px var(--tx);opacity:1}.hs i.H{background:transparent;box-shadow:inset 0 0 0 1.5px var(--mu);opacity:1}
 .lk{background:none;border:0;color:var(--mu);font:500 12px var(--body);text-decoration:underline;cursor:pointer;padding:2px}
@@ -68,7 +71,7 @@ select,input{font:inherit;font-size:15px;padding:9px;border-radius:4px;border:1p
 .empty{background:var(--card);border:1px solid var(--ln);text-align:center;padding:36px 14px;font:700 24px/1.15 var(--disp);text-transform:uppercase}
 .empty small{display:block;font:400 15px var(--body);color:var(--mu);text-transform:none;margin-top:6px}
 </style></head><body>
-<header class="hero"><div class="wrap"><h1 id="ttl"></h1><div class="yr" id="yrw"><select id="yr" aria-label="Year"></select></div><div class="cap">First to 20.5 points wins</div>
+<header class="hero"><div class="wrap"><h1 id="ttl"></h1><div class="yr" id="yrw"><button id="yb" aria-label="Choose year" aria-haspopup="true" aria-expanded="false"><i></i><i></i><i></i></button><div id="ym" role="menu" hidden></div></div><div class="cap">First to 20.5 points wins</div>
 <div class="sb"><div class="tm A"><div class="num" id="sa">0</div><div class="nm" id="na"></div></div><div class="tm B"><div class="num" id="sb">0</div><div class="nm" id="nb"></div></div></div><div class="wp" id="wp"></div></div></header>
 <nav><div class="wrap tabs"><button data-t="sat">Saturday</button><button data-t="sun">Sunday</button><button data-t="roster">Players</button></div></nav>
 <main><div id="app"></div><div class="hint" id="hint"></div><div class="hint" id="views" style="margin-top:4px"></div></main>
@@ -146,7 +149,7 @@ function render(){
    h+="</section>"});
   if(S.set)h+=`<p class="note">BB best ball, SC scramble, AS alt shot. Saturday parts count for both partners.</p>`}
  $('app').innerHTML=h;
- $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v17":"Final results. v17";
+ $('hint').textContent=scorer?"":adm?"Scorekeeper mode: tap Win or Halve, then type the margin in the tag.":S.live?"Scores refresh automatically. v18":"Final results. v18";
 }
 const P=new URLSearchParams(location.search),DB=P.get('db')||'woody-dc613-default-rtdb.firebaseio.com';
 const DBU=(window.WOODY_DB||('https://'+DB.replace(/^https?:\/\//,'').replace(/\/+$/,'')))+'/cup.json';
@@ -233,8 +236,13 @@ async function load(){if(!LIVE)return true;let ok=false;why="";
 })();
 
 if(scorer){document.querySelector('.cap').style.display='none';document.querySelector('.sb').style.display='none';$('wp').style.display='none';document.body.style.paddingBottom='70px'}
-$('yr').innerHTML=YEARS.map((y,i)=>`<option value="${i}">${y.year}${y.live?" (live)":""}</option>`).join("");$('yr').value=String(YEARS.indexOf(S));
-$('yr').addEventListener('change',e=>{S=YEARS[+e.target.value];tab="sat";render()});
+const ym=$('ym'),yb=$('yb');
+const drawYears=()=>{ym.innerHTML='<div class="yh">Year</div>'+YEARS.map((y,i)=>`<button role="menuitem" data-y="${i}" class="${y===S?"on":""}">${y.year}${y.live?"<small>live</small>":""}</button>`).join("")};
+const closeY=()=>{ym.hidden=true;yb.setAttribute('aria-expanded','false')};
+drawYears();
+yb.addEventListener('click',e=>{e.stopPropagation();const open=ym.hidden;ym.hidden=!open;yb.setAttribute('aria-expanded',String(open))});
+ym.addEventListener('click',e=>{const b=e.target.closest('[data-y]');if(!b)return;S=YEARS[+b.dataset.y];tab="sat";drawYears();render()});
+document.addEventListener('click',closeY);document.addEventListener('keydown',e=>{if(e.key==="Escape")closeY()});
 if(scorer)$('yrw').style.display='none';
 render();
 if(admin||scorer){$('bar').hidden=false;setMsg(admin?"Scorekeeper mode: tap Win or Halve. Scores save automatically.":"Tap who won each hole. Scores save automatically.")}
